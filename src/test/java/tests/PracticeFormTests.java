@@ -4,6 +4,8 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -33,6 +35,7 @@ public class PracticeFormTests {
         $("[aria-label='Choose Tuesday, July 23rd, 1985']").click();
 
         $(byText("Sports")).click();
+        $("[id=uploadPicture]").uploadFile(new File("src/test/java/resources/testPicture.jpg"));
         $("[id=currentAddress]").setValue("Taganrog");
         $("[id=submit]").click();
 
@@ -42,6 +45,7 @@ public class PracticeFormTests {
         $(".table-responsive").find("td",7).shouldHave(text("9281281020"));
         $(".table-responsive").find("td",9).shouldHave(text("23 July,1985"));
         $(".table-responsive").find("td",13).shouldHave(text("Sports"));
+        $(".table-responsive").find("td",15).shouldHave(text("testPicture.jpg"));
         $(".table-responsive").find("td",17).shouldHave(text("Taganrog"));
     }
 }
