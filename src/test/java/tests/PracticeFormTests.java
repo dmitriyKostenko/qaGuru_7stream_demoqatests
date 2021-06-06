@@ -1,51 +1,68 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
-public class PracticeFormTests {
+public class PracticeFormTests extends TestBase {
 
-    @BeforeAll
-    static void setUp() {
-        Configuration.startMaximized = true;
-    }
+    String firstName = "Dmitry",
+            lastName = "Kostenko",
+            email = "kdm.tag@gmail.com",
+            gender = "Male",
+            mobile = "9281281020",
+            monthOfBirth = "May",
+            yearOfBirth = "1985",
+            dayOfBirth = "30",
+            subject = "Chemistry",
+            hobby = "Sports",
+            picture = "testPicture.jpg",
+            currentAddress = "Taganrog, Lenina street, 100",
+            state = "Haryana",
+            city = "Panipat";
+
 
     @Test
     void successfulSubmitForTest() {
 
+        //Arrange
         open("https://demoqa.com/automation-practice-form");
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
 
-        $("[id=firstName]").setValue("Dmitry");
-        $("[id=lastName]").setValue("Kostenko");
-        $("[id=userEmail]").setValue("kdm.tag@gmail.com");
-        $(byText("Male")).click();
-        $("[id=userNumber]").setValue("9281281020");
+        //Act
+        $("#firstName").val(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userEmail").setValue(email);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").val(mobile);
+        $("#dateOfBirthInput").click();
+        $(".react-datepicker__month-select").selectOption(monthOfBirth);
+        $(".react-datepicker__year-select").selectOption(yearOfBirth);
+        $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)", dayOfBirth)).click();
+        $("#subjectsInput").val(subject).pressEnter();
+        $("#hobbiesWrapper").$(byText(hobby)).click();
+        $("#uploadPicture").uploadFile(new File("src/test/java/resources/img/testPicture.jpg"));
+        $("#currentAddress").val(currentAddress);
+        $("#react-select-3-input").val(state).pressEnter();
+        $("#react-select-4-input").val(city).pressEnter();
+        $("#submit").click();
 
-        $("[id=dateOfBirthInput]").click();
-        $(".react-datepicker__month-select").selectOption("July");
-        $(".react-datepicker__year-select").selectOption("1985");
-        $("[aria-label='Choose Tuesday, July 23rd, 1985']").click();
+        //Assert
+        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+        $x("//td[text()='Student Name']").parent().shouldHave(text(firstName + " " + lastName));
+        $x("//td[text()='Student Email']").parent().shouldHave(text(email));
+        $x("//td[text()='Gender']").parent().shouldHave(text(gender));
+        $x("//td[text()='Mobile']").parent().shouldHave(text(mobile));
+        $x("//td[text()='Date of Birth']").parent().shouldHave(text(dayOfBirth + " " + monthOfBirth + "," + yearOfBirth));
+        $x("//td[text()='Subjects']").parent().shouldHave(text(subject));
+        $x("//td[text()='Hobbies']").parent().shouldHave(text(hobby));
+        $x("//td[text()='Picture']").parent().shouldHave(text(picture));
+        $x("//td[text()='Address']").parent().shouldHave(text(currentAddress));
+        $x("//td[text()='State and City']").parent().shouldHave(text(state + " " + city));
 
-        $(byText("Sports")).click();
-        $("[id=uploadPicture]").uploadFile(new File("src/test/java/resources/testPicture.jpg"));
-        $("[id=currentAddress]").setValue("Taganrog");
-        $("[id=submit]").click();
-
-        $(".table-responsive").find("td",1).shouldHave(text("Dmitry Kostenko"));
-        $(".table-responsive").find("td",3).shouldHave(text("kdm.tag@gmail.com"));
-        $(".table-responsive").find("td",5).shouldHave(text("Male"));
-        $(".table-responsive").find("td",7).shouldHave(text("9281281020"));
-        $(".table-responsive").find("td",9).shouldHave(text("23 July,1985"));
-        $(".table-responsive").find("td",13).shouldHave(text("Sports"));
-        $(".table-responsive").find("td",15).shouldHave(text("testPicture.jpg"));
-        $(".table-responsive").find("td",17).shouldHave(text("Taganrog"));
     }
 }
