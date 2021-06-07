@@ -102,9 +102,9 @@ public class PracticeForm {
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
         $x("//td[text()='Student Name']").parent().shouldHave(text(firstName + " " + lastName));
         $x("//td[text()='Student Email']").parent().shouldHave(text(email));
-        $x("//td[text()='Gender']").parent().shouldHave(text(gender));
         $x("//td[text()='Mobile']").parent().shouldHave(text(mobile));
-        $x("//td[text()='Date of Birth']").parent().shouldHave(text(dayOfBirth + " " + monthOfBirth + "," + yearOfBirth));
+        $x("//td[text()='Date of Birth']").parent()
+                .shouldHave(text(dayOfBirth + " " + monthOfBirth + "," + yearOfBirth));
         $x("//td[text()='Subjects']").parent().shouldHave(text(subject));
         $x("//td[text()='Hobbies']").parent().shouldHave(text(hobby));
         $x("//td[text()='Picture']").parent().shouldHave(text(picture));
