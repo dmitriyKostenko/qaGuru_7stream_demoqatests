@@ -65,7 +65,7 @@ public class PracticeForm {
     }
 
     public void uploadPicture(String picture) {
-        uploadFileInput.uploadFile(new File("src/test/java/resources/img/" + picture));
+        uploadFileInput.uploadFile(new File("src/test/resources/img/" + picture));
     }
 
     public void typeCurrentAddress(String currentAddress) {

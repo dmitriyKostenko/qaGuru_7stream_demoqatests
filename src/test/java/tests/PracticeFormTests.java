@@ -45,7 +45,7 @@ public class PracticeFormTests extends TestBase {
         $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)", dayOfBirth)).click();
         $("#subjectsInput").val(subject).pressEnter();
         $("#hobbiesWrapper").$(byText(hobby)).click();
-        $("#uploadPicture").uploadFile(new File("src/test/java/resources/img/testPicture.jpg"));
+        $("#uploadPicture").uploadFile(new File("src/test/resources/img/" + picture));
         $("#currentAddress").val(currentAddress);
         $("#react-select-3-input").val(state).pressEnter();
         $("#react-select-4-input").val(city).pressEnter();
